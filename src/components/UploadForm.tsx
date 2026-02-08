@@ -136,7 +136,6 @@ export default function UploadForm({ onSubmit, isLoading }: UploadFormProps) {
             ref={fileInputRef}
             type="file"
             accept="image/jpeg,image/png,image/gif,image/webp"
-            capture="environment"
             onChange={handleFileChange}
             disabled={isLoading}
             className="hidden"
