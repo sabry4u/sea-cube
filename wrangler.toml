@@ -1,0 +1,11 @@
+name = "sea-cube"
+main = ".open-next/worker.js"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+assets = { directory = ".open-next/assets", binding = "ASSETS" }
+
+[[d1_databases]]
+binding = "DB"
+database_name = "archaeology-db"
+database_id = "f0d2adff-2eb0-4d3a-95ce-7d8403ac4bc3"
