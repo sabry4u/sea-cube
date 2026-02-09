@@ -24,6 +24,11 @@ Perform these checks in order and return structured JSON:
    - Provide confidence score (0-100)
    - Return: { "objectType": "string or null", "objectConfidence": number }
 
+5. BOUNDING BOX:
+   - If a man-made object was found, estimate its bounding box as normalized coordinates (0 to 1 range relative to image width/height)
+   - x = left edge, y = top edge, width and height as fractions of the image
+   - Return: { "boundingBox": { "x": number, "y": number, "width": number, "height": number } | null }
+
 Return ONLY raw valid JSON with this exact structure (no markdown, no code fences, no explanation):
 {
   "safetyViolation": boolean,
@@ -33,7 +38,8 @@ Return ONLY raw valid JSON with this exact structure (no markdown, no code fence
   "hasManMadeObject": boolean,
   "manMadeConfidence": number,
   "objectType": string | null,
-  "objectConfidence": number
+  "objectConfidence": number,
+  "boundingBox": { "x": number, "y": number, "width": number, "height": number } | null
 }`;
 
 export async function analyzeImage(

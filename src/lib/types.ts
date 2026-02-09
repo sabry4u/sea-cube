@@ -17,6 +17,13 @@ export type ObjectType =
   | 'tool'
   | 'aircraft';
 
+export interface BoundingBox {
+  x: number;      // normalized 0-1, left edge
+  y: number;      // normalized 0-1, top edge
+  width: number;   // normalized 0-1
+  height: number;  // normalized 0-1
+}
+
 export interface ClaudeAnalysisResult {
   safetyViolation: boolean;
   violationType: string | null;
@@ -26,6 +33,7 @@ export interface ClaudeAnalysisResult {
   manMadeConfidence: number;
   objectType: string | null;
   objectConfidence: number;
+  boundingBox: BoundingBox | null;
 }
 
 export interface ArchaeologyTeam {
@@ -49,6 +57,7 @@ export interface AnalysisSuccess {
   objectType: string;
   objectConfidence: number;
   manMadeConfidence: number;
+  boundingBox: BoundingBox | null;
 }
 
 export interface AnalysisResponse {

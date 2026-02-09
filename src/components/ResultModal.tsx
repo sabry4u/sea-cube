@@ -6,9 +6,10 @@ interface ResultModalProps {
   response: AnalysisResponse;
   onClose: () => void;
   onRequestReview: () => void;
+  onContact: () => void;
 }
 
-export default function ResultModal({ response, onClose, onRequestReview }: ResultModalProps) {
+export default function ResultModal({ response, onClose, onRequestReview, onContact }: ResultModalProps) {
   const isSuccess = response.success && response.result;
   const isWarning = response.error?.code === '5.5';
   const isError = response.error && !isWarning;
@@ -87,18 +88,29 @@ export default function ResultModal({ response, onClose, onRequestReview }: Resu
 
         {/* Footer */}
         <div className="px-6 pb-5">
-          <button
-            onClick={onClose}
-            className={`w-full rounded-lg px-4 py-3 font-semibold transition-colors ${
-              isSuccess
-                ? 'bg-green-500 text-white hover:bg-green-600'
-                : isWarning
-                  ? 'bg-[#2a3060] text-gray-300 hover:bg-[#343b70]'
-                  : 'bg-[#2a3060] text-gray-300 hover:bg-[#343b70]'
-            }`}
-          >
-            OK
-          </button>
+          {isSuccess ? (
+            <div className="flex gap-3">
+              <button
+                onClick={onClose}
+                className="flex-1 rounded-lg bg-[#2a3060] px-4 py-3 text-gray-300 font-semibold hover:bg-[#343b70] transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={onContact}
+                className="flex-1 rounded-lg bg-green-500 px-4 py-3 text-white font-semibold hover:bg-green-600 transition-colors"
+              >
+                Contact
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={onClose}
+              className="w-full rounded-lg bg-[#2a3060] px-4 py-3 text-gray-300 font-semibold hover:bg-[#343b70] transition-colors"
+            >
+              OK
+            </button>
+          )}
         </div>
       </div>
     </div>

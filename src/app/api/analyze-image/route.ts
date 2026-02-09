@@ -183,6 +183,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<AnalysisR
         objectType,
         objectConfidence: analysis.objectConfidence,
         manMadeConfidence: analysis.manMadeConfidence,
+        boundingBox: analysis.boundingBox ?? null,
       },
     });
   } catch (error) {
