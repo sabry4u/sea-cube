@@ -7,7 +7,7 @@ import ResultModal from '@/components/ResultModal';
 import ReviewRequestForm from '@/components/ReviewRequestForm';
 import ContactForm from '@/components/ContactForm';
 import { AnalysisResponse } from '@/lib/types';
-import { enhanceUnderwaterImage, dataUrlToFile } from '@/lib/enhance';
+import { compressImage, enhanceUnderwaterImage, dataUrlToFile } from '@/lib/enhance';
 
 type AppState = 'idle' | 'loading' | 'result' | 'review' | 'contact';
 
@@ -36,9 +36,10 @@ export default function Home() {
     setResponse(null);
 
     try {
-      // Read original image and enhance before sending to API
+      // Read original image, compress if needed, then enhance before sending to API
       const imageFile = formData.get('image') as File;
-      const originalDataUrl = await readFileAsDataUrl(imageFile);
+      const rawDataUrl = await readFileAsDataUrl(imageFile);
+      const originalDataUrl = await compressImage(rawDataUrl);
       setOriginalImage(originalDataUrl);
 
       const enhancedDataUrl = await enhanceUnderwaterImage(originalDataUrl);

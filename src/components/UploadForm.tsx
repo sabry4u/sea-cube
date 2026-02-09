@@ -128,14 +128,14 @@ export default function UploadForm({ onSubmit, isLoading }: UploadFormProps) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
               <p className="text-sm font-medium text-gray-300">Choose Image or Take Photo</p>
-              <p className="text-xs text-gray-500 mt-0.5">JPEG, PNG, GIF, or WebP up to 10MB</p>
+              <p className="text-xs text-gray-500 mt-0.5">Large images are auto-compressed</p>
             </div>
           )}
           <input
             id="image-upload"
             ref={fileInputRef}
             type="file"
-            accept="image/jpeg,image/png,image/gif,image/webp"
+            accept="image/*"
             onChange={handleFileChange}
             disabled={isLoading}
             className="hidden"

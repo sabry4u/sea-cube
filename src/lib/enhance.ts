@@ -1,3 +1,47 @@
+const MAX_DIMENSION = 2048;
+const COMPRESS_QUALITY = 0.85;
+
+/**
+ * Compresses an image if it exceeds the size limit.
+ * Resizes to max 2048px on the longest side and outputs JPEG at 0.85 quality.
+ * Returns the original data URL if the image is already small enough.
+ */
+export async function compressImage(dataUrl: string, maxBytes: number = 8 * 1024 * 1024): Promise<string> {
+  // Quick check: estimate the decoded size from the base64 length
+  const base64Part = dataUrl.split(',')[1] ?? '';
+  const estimatedSize = (base64Part.length * 3) / 4;
+  if (estimatedSize <= maxBytes) return dataUrl;
+
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      let { width, height } = img;
+
+      // Scale down if either dimension exceeds the max
+      if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
+        const scale = MAX_DIMENSION / Math.max(width, height);
+        width = Math.round(width * scale);
+        height = Math.round(height * scale);
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        resolve(dataUrl);
+        return;
+      }
+
+      ctx.drawImage(img, 0, 0, width, height);
+      resolve(canvas.toDataURL('image/jpeg', COMPRESS_QUALITY));
+    };
+    img.onerror = () => resolve(dataUrl);
+    img.src = dataUrl;
+  });
+}
+
 /**
  * Client-side underwater image enhancement using Canvas API.
  * Applies Gray World white balance to remove blue/green color cast,
